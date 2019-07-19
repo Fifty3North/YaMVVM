@@ -136,21 +136,27 @@ namespace F3N.YaMVVM.ViewModel
         }
     }
 
-    public abstract class PageViewModel : YamvvmViewModel
+    public abstract class PageViewModel : YamvvmViewModel, INotifyPropertyChanged
     {
+        private bool _isPopping;
+
         public Command BackCommand => new Command(async () => await PopPage());
 
         public async Task PopPage()
         {
-            var modal = ViewModelNavigation.IsModal(this.modelPage);
+            if (!_isPopping)
+            {
+                _isPopping = true;
+                var modal = ViewModelNavigation.IsModal(this.modelPage);
 
-            if (modal)
-            {
-                await Pop((nav) => nav.ModalStack, async (nav) => await nav.PopModalAsync());
-            }
-            else
-            {
-                await Pop((nav) => nav.NavigationStack, async (nav) => await nav.PopAsync());
+                if (modal)
+                {
+                    await Pop((nav) => nav.ModalStack, async (nav) => await nav.PopModalAsync());
+                }
+                else
+                {
+                    await Pop((nav) => nav.NavigationStack, async (nav) => await nav.PopAsync());
+                }
             }
         }
     }
