@@ -92,24 +92,12 @@ namespace F3N.YaMVVM.ViewModel
                 model.ModelReady -= modelPage.ModelReady;
             }
 
-            //INavigation nav = ViewModelNavigation.GetNavigation();
-
-            //if (nav == null) return;
-
             IReadOnlyList<Page> navStack = navStackProperty(modelPage.Navigation);
 
             if (navStack == null || navStack.Count == 0) return;
 
             Type pageType = navStack.Last().GetType();
 
-            //if (navStack.Last() is YamvvmNavigationPage p)
-            //{
-            //    pageType = p.Navigation.NavigationStack.Last().GetType();
-            //}
-
-            //if (modelPage != null && pageType != modelPage.GetType()) return;
-
-            //ViewModelNavigation.PagePopped(modelPage);
             await navPopTask(modelPage.Navigation);
 
             await ViewModelNavigation.DoAsyncWithoutWaiting(async () =>
@@ -154,9 +142,6 @@ namespace F3N.YaMVVM.ViewModel
 
         public async Task PopPage()
         {
-            //this.modelPage.SendBackButtonPressed();
-            //await Task.CompletedTask;
-
             var modal = ViewModelNavigation.IsModal(this.modelPage);
 
             if (modal)
@@ -167,22 +152,6 @@ namespace F3N.YaMVVM.ViewModel
             {
                 await Pop((nav) => nav.NavigationStack, async (nav) => await nav.PopAsync());
             }
-
-
-            //await Pop((nav) => {
-            //    if (!modal && nav.NavigationStack != null && nav.NavigationStack.Count > 0)
-            //        return nav.NavigationStack;
-            //    else if (modal && nav.ModalStack != null && nav.ModalStack.Count > 0)
-            //        return nav.ModalStack;
-            //    else return null;
-
-            //}, async (nav) => {
-            //    if (!modal && nav.NavigationStack != null && nav.NavigationStack.Count > 0)
-            //        await nav.PopAsync();
-            //    else if (modal && nav.ModalStack != null && nav.ModalStack.Count > 0)
-            //        await nav.PopModalAsync();
-
-            //});
         }
     }
 }

@@ -102,7 +102,6 @@ namespace F3N.YaMVVM.ViewModel
             }
 
             var page = tabbedPage.Children[pageIndex];
-            // TODO: if one of the children was not a 'NavigationPage' then should ignore it w.r.t. index?
             tabbedPage.CurrentPage = page;
 
             Device.BeginInvokeOnMainThread(() =>
