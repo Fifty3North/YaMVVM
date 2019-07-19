@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Development team at Fifty3North</Authors>
+    <Company>Fifty3North (F3N Limited)</Company>
+    <Description>Yet another MVVM framework for Xamarin</Description>
+    <Copyright>Copyright © F3N Limited 2019</Copyright>
+    <PackageProjectUrl>https://github.com/Fifty3North/YaMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Fifty3North/YaMVVM</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
