@@ -128,6 +128,56 @@ namespace F3N.YaMVVM.ViewModel
             await Task.WhenAll(initTasks);
         }
 
+        /// <summary>
+        /// Set MainPage to a Master Detail page container.
+        /// Also initializes all viewmodels.
+        /// </summary>
+        /// <typeparam name="TPage">Must be of type TabbedPage.</typeparam>
+        /// <returns></returns>
+        public static async Task SetMasterDetailPage<TMasterPage,TDetailPage>(int pageIndex = 0, 
+            YamvvmViewModel masterDetailViewModel = null,
+            PageViewModel masterViewModel = null, 
+            PageViewModel detailViewModel = null)
+            where TMasterPage : YamvvmPage, new()
+            where TDetailPage : YamvvmPage, new()
+        {
+            MasterDetailPage masterDetailPage = new MasterDetailPage();
+            TMasterPage masterPage = new TMasterPage();
+            TDetailPage detailsPage = new TDetailPage();
+
+            masterDetailPage.Master = masterPage;
+            masterDetailPage.Detail = new NavigationPage(detailsPage);
+
+            var initTasks = new List<Task>();
+
+            if (masterDetailViewModel != null)
+            {
+                masterDetailPage.BindingContext = masterDetailViewModel;
+                initTasks.Add(masterDetailViewModel.Initialise());
+            }
+
+            if (masterViewModel != null)
+            {
+                masterPage.BindingContext = masterViewModel;
+                initTasks.Add(masterViewModel.Initialise());
+            }
+
+            if(detailViewModel != null)
+            {
+                detailsPage.BindingContext = detailViewModel;
+                initTasks.Add(detailViewModel.Initialise());
+            }
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Application.Current.MainPage = masterDetailPage;
+            });
+
+            await CleanupPreviousMainPage();
+            
+            await Task.WhenAll(initTasks);
+        }
+
         private static async Task Init(Page cp)
         {
             if (cp is YamvvmNavigationPage nav)
@@ -206,17 +256,6 @@ namespace F3N.YaMVVM.ViewModel
             }
 
             await initialiseViewModelTask;
-        }
-
-        public static async Task PopupAlert(string titleText, string message, string cancel)
-        {
-            Device.BeginInvokeOnMainThread(async () => await Application.Current.MainPage.DisplayAlert(titleText, message, cancel));
-            await Task.CompletedTask;
-        }
-
-        public static async Task<bool> PopupAlert(string titleText, string message, string accept, string cancel)
-        {
-            return await Application.Current.MainPage.DisplayAlert(titleText, message, accept, cancel);
         }
 
         private static async Task InitialisePage<TPage>(TPage page, YamvvmViewModel vm) where TPage : YamvvmPage, new()
