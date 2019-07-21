@@ -190,14 +190,14 @@ namespace F3N.YaMVVM.ViewModel
             Task initialiseViewModelTask = InitialisePage(page, vm);
             INavigation navigation;
 
-            if (currentViewModel.modelPage.Navigation == null)
+            if (currentViewModel.ModelPage.Navigation == null)
             {
                 navigation = GetNavigation();
             }
             else
             {
                 //navigation = GetNavigation();
-                navigation = currentViewModel.modelPage.Navigation;
+                navigation = currentViewModel.ModelPage.Navigation;
             }
 
             if (navigation != null)
@@ -233,8 +233,7 @@ namespace F3N.YaMVVM.ViewModel
         {
             if (page != null && vm != null)
             {
-                vm.modelPage = page;
-                vm.model = vm;
+                vm.ModelPage = page;
                 vm.ModelReady += page.ModelReady;
 
                 
@@ -313,9 +312,9 @@ namespace F3N.YaMVVM.ViewModel
         {
             if (page.BindingContext is YamvvmViewModel vm)
             {
-                if (vm.model != null && vm.modelPage != null)
+                if (vm.ModelPage != null)
                 {
-                    vm.model.ModelReady -= vm.modelPage.ModelReady;
+                    vm.ModelReady -= vm.ModelPage.ModelReady;
                 }
 
                 await DoAsyncWithoutWaiting(async () =>

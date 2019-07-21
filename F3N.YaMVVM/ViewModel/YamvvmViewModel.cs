@@ -21,8 +21,7 @@ namespace F3N.YaMVVM.ViewModel
 
         public bool Initialised { get; private set; }
 
-        public YamvvmViewModel model;
-        public YamvvmPage modelPage;
+        public YamvvmPage ModelPage;
 
         private bool isBusy = false;
         public bool IsBusy
@@ -87,18 +86,18 @@ namespace F3N.YaMVVM.ViewModel
 
         protected async Task Pop(Func<INavigation, IReadOnlyList<Page>> navStackProperty, Func<INavigation, Task> navPopTask)
         {
-            if (model != null && modelPage != null)
+            if (ModelPage != null)
             {
-                model.ModelReady -= modelPage.ModelReady;
+                this.ModelReady -= ModelPage.ModelReady;
             }
 
-            IReadOnlyList<Page> navStack = navStackProperty(modelPage.Navigation);
+            IReadOnlyList<Page> navStack = navStackProperty(ModelPage.Navigation);
 
             if (navStack == null || navStack.Count == 0) return;
 
             Type pageType = navStack.Last().GetType();
 
-            await navPopTask(modelPage.Navigation);
+            await navPopTask(ModelPage.Navigation);
 
             await ViewModelNavigation.DoAsyncWithoutWaiting(async () =>
             {
@@ -116,7 +115,7 @@ namespace F3N.YaMVVM.ViewModel
     {
         protected YamvvmViewModel SwitchTab(int index)
         {
-            if (modelPage?.Parent is YamvvmNavigationPage navigationPage)
+            if (ModelPage?.Parent is YamvvmNavigationPage navigationPage)
             {
                 if (navigationPage.Parent is TabbedPage tabbedPage)
                 {
@@ -147,7 +146,7 @@ namespace F3N.YaMVVM.ViewModel
             if (!_isPopping)
             {
                 _isPopping = true;
-                var modal = ViewModelNavigation.IsModal(this.modelPage);
+                var modal = ViewModelNavigation.IsModal(this.ModelPage);
 
                 if (modal)
                 {
@@ -158,6 +157,16 @@ namespace F3N.YaMVVM.ViewModel
                     await Pop((nav) => nav.NavigationStack, async (nav) => await nav.PopAsync());
                 }
             }
+        }
+
+        public async Task DisplayAlert(string title, string text, string confirmText)
+        {
+            await this.ModelPage.DisplayAlert(title, text, confirmText);
+        }
+
+        public async Task<bool> DisplayAlert(string title, string text, string confirmText, string cancelText)
+        {
+            return await this.ModelPage.DisplayAlert(title, text, confirmText, cancelText);
         }
     }
 }
