@@ -19,6 +19,10 @@ This was created to:
 * allow viewmodel to know when page was re-opened, e.g. when appearing after user clicked back
 * call DisplayAlert from view model
 
+## Works well with:
+[F3N.Hoard](https://github.com/Fifty3North/Hoard) 
+> Cross platform storage for native apps used in-house at Fifty3North.
+
 ## Getting started
 
 Install NuGet package `F3N.YaMVVM` into Xamarin Forms project
