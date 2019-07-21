@@ -31,9 +31,21 @@ In XAML change App to:
 ...
 ```
 
+#### View Models
 Page view models inherit from `PageViewModel`
 
 Components or sub views inherit from `YamvvmViewModel`
+
+#### Pages
+Pages inherit from one of:
+* `YamvvmNavigationPage`
+* `YamvvmPage`
+
+```
+<yamvvm:YamvvmPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:yamvvm="clr-namespace:F3N.YaMVVM.Views;assembly=F3N.YaMVVM"
+    ...
+```
 
 Set main page using one of:
 * `ViewModelNavigation.SetTabbedMainPage<TabbedPage>();`
