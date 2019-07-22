@@ -1,5 +1,6 @@
 # F3N.YaMVVM
 ![Nuget](https://img.shields.io/nuget/v/F3N.YaMVVM.svg)
+![Azure DevOps builds](https://img.shields.io/azure-devops/build/andy0505/3270ed0d-e050-46bb-be0a-077a5b7e8f5a/2.svg)
 
 Yet another Model, View, ViewModel framework for Xamarin Forms.
 
