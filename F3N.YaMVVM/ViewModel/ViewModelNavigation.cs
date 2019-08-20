@@ -104,12 +104,13 @@ namespace F3N.YaMVVM.ViewModel
             var page = tabbedPage.Children[pageIndex];
             tabbedPage.CurrentPage = page;
 
+            await CleanupPreviousMainPage();
+
             Device.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = tabbedPage;
             });
-
-            await CleanupPreviousMainPage();
+            
             await Init(page);
 
             var initTasks = new List<Task>();
