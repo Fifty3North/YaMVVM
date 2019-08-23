@@ -327,6 +327,21 @@ namespace F3N.YaMVVM.ViewModel
                 }
             }
 
+            var taskList = new List<Task>();
+
+            if (Application.Current.MainPage.Navigation?.ModalStack?.Count > 0)
+            {
+                foreach (Page pg in Application.Current.MainPage.Navigation.ModalStack)
+                {
+                    if (pg is YamvvmPage basePage)
+                    {
+                        taskList.Add(DestroyPageViewModel(basePage));
+                    }
+                }
+
+                await Task.WhenAll(taskList);
+            }
+
 #if DEBUG
             sw.Stop();
             System.Diagnostics.Debug.WriteLine("Finished CleanupPreviousMainPage {0} ({1}ms)", vmtype, sw.ElapsedMilliseconds);
